@@ -1,0 +1,114 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="position-fixed top-0 start-0 z-n1 object-fit-cover w-100 h-100">
+    <img src="css/Zoo_ticket_image.jpg"
+         class="img-fluid position-fixed top-0 start-0 z-n1 object-fit-cover w-100" alt="background image"
+         style="height: 100vh; object-fit: none; object-position: left;"/>
+    <div class="content position-relative top-50 start-50 translate-middle">
+        <div class="ms-5 text-white ps-3" style="height: 75vh; max-height: 75vh; width: 45%; background-color: rgba(0,0,0,0.75);">
+            
+            <p class="inter header-large text-white mb-o">Login In</p>
+            <p class="inter subtitle-base text-white mb-0">Don't have an account? <a class="text-decoration-underline text-white mb-0" asp-area="Identity" asp-page="/Account/Register">Sign Up</a></p>
+            <hr class="m-0 opacity-100"/>
+            <div class="row" style="height: 88.4%">
+                <div class="col pt-3 border-end border-opacity-100">
+                    
+                    <form id="registerForm" asp-route-returnURL="@Model.ReturnUrl" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                        <div class="form-floating mb-2">
+                            <input asp-for="Input.Email" class="form-control bg-transparent border-white text-white inter header-extra-small" autocomplete="username" aria-required="true" placeholder="name@example.com"/>
+                            <label asp-for="Input.Email" class="text-white inter subtle-secondary">Email</label>
+                            <span asp-validation-for="Input.Email" class="text-danger inter subtitle-base" ></span>
+                        </div>
+
+                        <div class="form-floating mb-2">
+                            <input asp-for="Input.Password" type="password" class="form-control bg-transparent border-white text-white inter header-extra-small" autocomplete="new-Password" aria-required="true" placeholder="Password"/>
+                            <label asp-for="Input.Password" class="text-white inter subtle-secondary">Password</label>
+                            <span asp-validation-for="Input.Password" class="text-danger inter subtitle-base" ></span>
+                            <div class="input-group-append position-absolute" style="top: 17.5% !important; right: 0% !important;">
+                                
+                                <button class="btn btn-outline-light border-0 shadow-none bg-transparent text-white" type="button" id="passwordToggleBtn">
+                                    <i class="fas fa-eye" id="passwordtoggleIcon"></i>
+                                </button>
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="checkbox mb-2">
+                            <label asp-for="Input.RememberMe" class="form-label inter subtitle-secondary">
+                                <input class="form-check-input p-2" asp-for="Input.RememberMe" style="background-color: rgba(0,0,0,0.1);"/>
+                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                            </label>
+                        </div>
+                        
+                        <hr class="opacity-100 m-1"/>
+                        
+                        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary rounded-pill header-medium mb-3">Log In</button>
+                        <a asp-area="Identity" asp-page="/Account/ForgotPassword" class="text-white">Forgot your password?</a>
+                        <br/>
+                        <a asp-area="Identity" asp-page="/Account/ResendEmailConfirmation" class="text-white">Resend email confirmation</a>
+                        
+                    </form>
+                    
+                </div>
+                
+                <div class="col pt-3">
+                    
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-ReturnUrl="@Model.ReturnUrl" method="post" class="form-horizontal me-2">
+                        
+                        @foreach (var provider in Model.ExternalLogins!)
+                        {
+                            <button type="submit" class="btn btn-primary btn-block btn-lg rounded-pill w-100 mb-3" name="provider" value="@provider.Name" title="Log In using your @provider.DisplayName account">
+                                <i class="fa-brands fa-thin fa-@provider.Name.ToLower() header-small align-middle"></i> <p class="inter subtitle-base d-inline-block m-1">Continue with @provider.DisplayName</p>
+                                
+                            </button>
+                            
+                        }
+                        
+                    </form>
+                    
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="text-white inter other-caption d-inline-block bg-black p-1 position-absolute" style="bottom: 5.5%;">
+        <div class="d-flex align-items-center">
+            <i class="fa fa-thin fa-circle-info me-1"></i>
+            <span class="inter other-caption">Image by shutterstock</span>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <!--Javascript for password-->
+    <script>
+        function passwordToggle(field, icon) {
+            
+            if (field.type === "password") {
+                field.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                field.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+        
+        const passwordField = document.getElementById("passwordField");
+        const passwordtoggleIcon = document.getElementById("passwordtoggleIcon");
+        document.getElementById("passwordToggleBtn").addEventListener("click", function (){
+        });
+        
+    </script>
+}

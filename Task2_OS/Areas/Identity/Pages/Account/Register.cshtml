@@ -1,0 +1,143 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="positioned-fixed top-0 start-0 z-nl object-fit-cover w-100 h-100">
+    <img src="css/login_image.jpg" 
+         class="img-fluid position-fixed top-0 start-0 z-nl object-fit-cover w-100" alt="Background Image" 
+         style="height: 100vh; object-fit: none; object-position: left;"/>
+    
+    <div class="content-position-relative top-50 start-50 translate-middle">
+        <div class="ms-5 text-white ps-3" style="height: 75vh; max-height: 75vh; width: 45%; background-color: rgba(0,0,0,0.75);">
+            <p class="inter header-large text-white mb-0">Sign Up</p>
+            <p class="inter subtitle-base text-white mb-0">Already have an account? <a class="text-decoration-underline text-white mb-0" asp-area="Identity" asp-page="/Account/Login">Log in</a></p>
+            <hr class="m-0 opacity-100"/>
+            <div class="row" style="height: 88.4%">
+                <div class="col pt-3 border-end border-opacity-100">
+                    
+                    <form id="registerForm" asp-route-returnURL="@Model.ReturnUrl" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                        
+                        <div class="form-floating mb-2">
+                            <input asp-for="Input.FirstName" class="form-control bg-transparent border-white text-white inter header-extra-small" autocomplete="given-name" aria-required="true" placeholder="John"/>
+                            <label asp-for="Input.FirstName" class="text-white inter subtitle-secondary">First Name</label>
+                            <span asp-validation-for="Input.FirstName" class="text-danger inter subtitle-base"></span>
+                        </div>
+
+                        <div class="form-floating mb-2">
+                            <input asp-for="Input.LastName" class="form-control bg-transparent border-white text-white inter header-extra-small" autocomplete="family-name" aria-required="true" placeholder="Petterson"/>
+                            <label asp-for="Input.LastName" class="text-white inter subtitle-secondary">Last Name</label>
+                            <span asp-validation-for="Input.LastName" class="text-danger inter subtitle-base"></span>
+                        </div>
+
+                        <div class="form-floating mb-2">
+                            <input asp-for="Input.Email" class="form-control bg-transparent border-white text-white inter header-extra-small" autocomplete="username" aria-required="true" placeholder="name@example.com"/>
+                            <label asp-for="Input.Email" class="text-white inter subtitle-secondary">Email</label>
+                            <span asp-validation-for="Input.Email" class="text-danger inter subtitle-base"></span>
+                        </div>
+
+                        <div class="form-floating mb-2">
+                            <input asp-for="Input.Password" class="form-control bg-transparent border-white text-white inter header-extra-small" autocomplete="new-password" aria-required="true" placeholder="Password" id="passwordField"/>
+                            <label asp-for="Input.Password" class="text-white inter subtitle-secondary">Password</label>
+                            <span asp-validation-for="Input.Password" class="text-danger inter subtitle-base"></span>
+                            <div class="input-group-append position-absolute" style="top: 17.5% !important; right: 0% !important;">
+                                <button class="btn btn-outline-light border-0 shadow-none bg-transparent text-white" type="button" id="passwordToggleBtn">
+                                    <i class="fas fa-eye" id="passwordtoggleIcon"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-floating">
+                            <input asp-for="Input.ConfirmPassword" type="password" class="form-control bg-transparent border-white text-white inter header-extra-small" autocomplete="new-password" aria-required="true" placeholder="Password" id="confirmpasswordField"/>
+                            <label asp-for="Input.ConfirmPassword" class="text-white inter subtitle-secondary">Confirm Password</label>
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger inter subtitle-base"></span>
+                            <div class="input-group-append position-absolute" style="top: 17.5% !important; right: 0% !important;">
+                                <button class="btn btn-outline-light border-0 shadow-none bg-transparent text-white" type="button" id="confirmpasswordToggleBtn">
+                                    <i class="fas fa-eye" id="confirmpasswordtoggleIcon"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <hr class="opacity-100 m-1"/>
+                        <div class="form-check mb-1">
+                            <input type="checkbox" class="form-check-input p-2" id="agreeToTerms" aria-required="true" style="background-color: rgba(0,0,0,0.1);"/>
+                            <label class="form-check-label text-white inter other-caption" for="agreeToTerms">
+                                By registering for an account, I accept my agreement to abide by our
+                                <a asp-area="" asp-controller="Home" asp-action="Terms" class="text-white">Terms of use</a>
+                                and
+                                <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-white">Privacy Policy</a>
+                            </label>
+                        </div>
+                        
+                        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary rounded-pill inter header-medium" disabled>Sign Up</button>
+                        
+                    </form>
+                </div>
+                
+                
+                
+                <div class="col pt-3">
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnURL="@Model.ReturnUrl" method="post" class="form-horizontal me-2">
+                        
+                        @foreach (var provider in Model.ExternalLogins!)
+                        {
+                            <button type="submit" class="btn btn-primary btn-block btn-lg rounded-pill w-100 mb-3" name="provider" value="@provider.Name" title="Login using your @provider.DisplayName account">
+                                <i class="fa-brands fa-thin fa-@provider.Name.ToLower() header-small align-middle"></i> <p  class="inter subtitle-base d-inline-block m-1">Continue with @provider.DisplayName</p>
+                            </button>
+                        }
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-white inter other-caption d-inline-block bg-black p-1 position-absolute" style="bottom: 5.5%;">
+        <div class="d-flex align-items-center">
+            <i class="fa fa-thin fa-circle-info me-1"></i>
+            <span class="inter other-caption">Image my shutterstock</span>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById('agreeToTerms').addEventListener('change', function () {
+            document.getElementById('registerSubmit').disabled = !this.checked;
+        });
+    </script>
+    
+    <script>
+        function passwordToggle(field, icon) {
+            if (field.type === "password") {
+                field.type = "text" ;
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                field.type = "password" ;
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+        
+        const passwordField = document.getElementById("passwordField");
+        const passwordtoggleIcon = document.getElementById("passwordtoggleIcon");
+        document.getElementById("passwordToggleBtn").addEventListener("click", function () {
+            passwordToggle(passwordField, passwordtoggleIcon);
+        });
+
+        const confirmpasswordField = document.getElementById("confirmpasswordField");
+        const confirmpasswordtoggleIcon = document.getElementById("confirmpasswordtoggleIcon");
+        document.getElementById("confirmpasswordToggleBtn").addEventListener("click", function () {
+            passwordToggle(confirmpasswordField, confirmpasswordtoggleIcon);
+        });
+        
+    </script>
+}
+
+
