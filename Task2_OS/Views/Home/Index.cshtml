@@ -1,0 +1,123 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="position-fixed top-0 start-0 z-n1 object-fit-cover w-100" style="height: 65%">
+    <img src="css/giraffe.jpg" class="img-fluid position-fixed top-0 z-n1 object-fit-cover w-100" alt="Background Image" style="transform: scaleX(-1); height: 65%"/>
+    
+    <div class="content position-relative top-50 start-50 translate-middle">
+        <h1 class="text-white inter header-super-large" style="transform: translate(16%, 100%);">Roar Intro</h1>
+        <h1 class="text-primary text-break inter header-super-large" style="transform: translate(18.5%, 70%);">ADVENTURE</h1>
+        
+        <div class="text-white inter subtle-base" style="transform: translate(20%, 110%);">
+            Discover the magic: every where <br/>Leads to adventure
+        </div>
+        <<br/>
+        <div class="text-center row justify-content-center">
+            
+            <div class="col-12 text-center">
+                <a class="btn btn-primary btn-lg d-inline-block my-4 inter header-medium"
+                   asp-controller="Booking" asp-action="Tickets">
+                    Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-white inter other-caption d-inline-block hg-black p-1 position-absolute bottom-0">
+        <div class="d-flex align-items-center">
+            <i class="fa fa-thin fa-circle-info me-1"></i>
+            <span class="inter other-caption">Image by ...</span>
+        </div>
+    </div>
+</div>
+
+<div class="w-100 position-fixed start-0 overflow-auto row" style="height: 30%; top: 65%">
+    <div class="col bg-secondary h-100 p-2">
+        <div id="carouselExampleControls" class="carousel slide h-100" data-bs-ride="carousel">
+            @{
+                var carouselItems = new[]
+                {
+                    new
+                    {
+                        ImageURL = "css/login_image.jpg",
+                        Title = "Encounter this",
+                        Description = "Obsenve the ",
+                        Source = "Image from wiki"
+                    },
+                    new
+                    {
+                        ImageURL = "css/profile_two.jpg",
+                        Title = "Encounter this",
+                        Description = "Obsenve the ",
+                        Source = "Image from wiki"
+                    },
+                    new
+                    {
+                        ImageURL = "css/stay_meerkat.jpg",
+                        Title = "Encounter this",
+                        Description = "Obsenve the ",
+                        Source = "Image from wiki"
+                    },
+                    new
+                    {
+                        ImageURL = "css/Zoo_ticket_image.jpg",
+                        Title = "Encounter this",
+                        Description = "Obsenve the ",
+                        Source = "Image from wiki"
+                    }
+                };
+                foreach (var item in carouselItems)
+                {
+                    <div class="carousel-item @(item == carouselItems.First() ? "active" : "")">
+                        <div class="row">
+                            <div class="col-1">
+                                <div class="col">
+                                    <img src="@item.ImageURL" class="d-block object-fit-cover" alt="image" style="width: 28vw; height: 23vh;"/>
+                                    <div class="d-flex align-items-center bg-black">
+                                        <i class="fa fa-thin fa-circle-info ms-1 me-1 text-white"></i>
+                                        <span class="inter other-caption text-white">@item.Source</span>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <h5 class="inter header-small bold">@item.Title</h5>
+                                    <hr class="m-0 opacity-100"/>
+                                    <p class="inter header-extra-small">@item.Description</p>
+                                </div>
+                                <div class="col-1"></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <ol class="carousel-indicators inter other-caption justify-content-start">
+            @{
+                for (int i = 0; i < carouselItems.Length; i++)
+                {
+                    <li data-bs-target="#carouselExampleControls" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "") me-3"></li>
+                }
+            }
+        </ol>
+        <button class="carousel-control-prev opacity-100 inter" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev" style="width: 8%;">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+
+        <button class="carousel-control-prev opacity-100 inter" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next" style="width: 8%;">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    
+    <div class="col-4">
+        <h3 class="inter header-small bold">Welcome to our website</h3>
+        <p class="inter body-secondary">Explore our wonderful services</p>
+        
+        <h4 class="inter subtle-base bold">Plan Visit</h4>
+        <p class="inter subtle-base bold">Plan Your Visit</p>
+        
+        <h4 class="inter subtle-base bold">Accommodation</h4>
+        <p class="inter subtle-base bold">Choose a variety of rooms</p>
+    </div>
+</div>
