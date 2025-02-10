@@ -7,29 +7,73 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/Task2_OS.styles.css" asp-append-version="true"/>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+<header class="header bg-gradient-dark">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow m=0 p-0">
         <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Task2_OS</a>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
+            
+            
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between row">
+                
+                <ul class="navbar-nav col justify-content-start">
+                    <a class="navbar-brand m-2 ps-3" asp-area="" asp-controller="Home" asp-action="Index">
+                        <div class="row">
+                            <div class="col p-0 m-0" style="background-color: white; width: 3em; height: 3em;">
+                                <!--<img/>-->
+                            </div>
+                            <div class="col">
+                                <p class="text-primary m-0 inter header-small bold">Ridget Zoo</p>
+                                <p class="text-white m-0 inter header-medium" style="line-height: 20px;">Adventures</p>
+                            </div>
+                        </div>
+                    </a>
+                </ul>    
+                <!--Navbar center-->
+                    
+                <ul class="navbar-nav col flex-grow-1 justify-content-center">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link text-white inter header-small" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <a class="nav-link text-white inter header-small" asp-area="" asp-controller="Home" asp-action="SafariBookings">Safari Bookings</a>
                     </li>
+
+                    <li class="nav-item">
+                        <button class="nav-link text-white inter header-small" id="navigation-explore" data-bs-placement="bottom">Explore</button>
+                        <div id="explore-tooltip" style="display: none;">
+                            <em>ToolTip</em> <u>with</u> <b>us</b>
+                        </div>
+                    </li>
+                    
                 </ul>
-                <partial name="_LoginPartial"/>
+                
+                <!--rightside-->
+                
+                <ul class="navbar-nav col justify-content-end">
+                    <partial name="_LoginPartial"/>
+                </ul>
+                
             </div>
+            
         </div>
+        
     </nav>
+    <hr class="text-primary w-100 opacity-100 m-0 p-0"/>
+    <br/>
+    
 </header>
 <div class="container">
     <main role="main" class="pb-3">
@@ -37,11 +81,53 @@
     </main>
 </div>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2025 - Task2_OS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+<footer class="footer bg-black text-white">
+    <div class="w-100 row align-items-center justify-content-center">
+        <div class="col-3 m-1 ms-3">
+            <div class="row d-flex align-items-center">
+                <div class="col-auto p-0 m-0" style="background-color: white; width: 4em; height: 4em;">
+                    
+                </div>
+                <div class="col">
+                    <p class="text-primary m-0 inter subtitle-base">Ridget Zoo</p>
+                    <p class="text-white m-0 inter subtitle-secondary">Adventures</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row align-items-end h-100 pb-2">
+                
+                <hr class="text-body-tertiary w-100 opacity-100m-0 p-0"/>
+                <div class="col-1">
+                    
+                    <div class="col text-center">
+                        <a class="nav-link text-white inter subtle-secondary" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+                    </div>
+
+                    <div class="col text-center">
+                        <a class="nav-link text-white inter subtle-secondary" asp-area="" asp-controller="Home" asp-action="Terms">Terms of Use</a>
+                    </div>
+
+                    <div class="col text-center">
+                        <a class="nav-link text-white inter subtle-secondary" asp-area="" asp-controller="Home" asp-action="Legality">Legal</a>
+                    </div>
+
+                    <div class="col text-center">
+                        <a class="nav-link text-white inter subtle-secondary" asp-area="" asp-controller="Home" asp-action="Support">Support</a>
+                    </div>
+                    
+                    <div class="col text-center">
+                        <a class="nav-link text-white inter subtitle-secondary medium text-decoration-underline" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
     </div>
 </footer>
+
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
