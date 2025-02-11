@@ -1,26 +1,125 @@
 ﻿@using Microsoft.AspNetCore.Identity
+
+@using Newtonsoft.Json
+
+
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
-        </li>
+    @{
+        IdentityUser? user = await UserManager.GetUserIdAsync(User);
+        if (SignInManager.IsSignedIn(User) && user != null)
+        {
+            int cartCount = 0;
+            string? cart = user?.ShoppingCart;
+            if (cart != null)
+            {
+                List<CartItemModel>? cartParsed = JsonConvert.DeserializeObject<List<CartItemModel>>(cart);
+                if (cartParsed != null)
+                {
+                    cartCount = cartParsed.Count;
+                }
+            }
+            
+            <li class="nav-item">
+                <a id="shoppingCart" class="nav-link text-white position-relative" title="Shopping Cart" asp-area="" asp-controller="Booking" asp-action="ViewCart">
+                    <i class="fa fa-thin fa-cart-shopping"></i>
+                    @if (cartCount > 0)
+                    {
+                        <span class="position-absolute top-0 end-0 badge rounded-pill bg-primary inter other-button bold p-0 px-1">@cartCount</span>
+                    }
+                </a>
+            </li>
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle link-primary inter header-extra-small" id="userDropdown" role="button" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
+                    Account
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li class="dropdown-item justify-content-between">
+                        <p class="m-0 p-0 inter header-small d-inline">Welcome,</p>
+                        <p class="m-0 p-0 inter body-secondary d-inline">@user.FirstName @user.LastName</p>
+                        
+                        <p class="opacity-25 d-block m-0 p-0 inter other-caption">@UserManager.GetUserName(User)</p>
+                    </li>
+                    
+                    <li><hr class="dropdown-divider"/></li>
+                    
+                    <!--Bookings page-->
+                    <a class="dropdown-item d-flex justify-content-between align-items-center" asp-area="" asp-controller="Booking" asp-action="ViewBookings" title="View Bookings">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-thin fa-calendar me-1"></i>
+                            <span class="inter body-secondary">View Bookings</span>
+                        </div>
+                        <i class="fa fa-thin fa-chevron-right"></i>
+                    </a>
+
+                    <!--Loyalty and Rewards page-->
+                    <a class="dropdown-item d-flex justify-content-between align-items-center" asp-area="" asp-controller="Loyalty" asp-action="View" title="Loyalty and Rewards">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-thin fa-star me-1"></i>
+                            <span class="inter body-secondary">Loyalty and Rewards</span>
+                        </div>
+                        <i class="fa fa-thin fa-chevron-right"></i>
+                    </a>
+
+                    <!--Loyalty and Rewards page-->
+                    <a class="dropdown-item d-flex justify-content-between align-items-center" asp-area="Identity" asp-controller="/Account/Manage/Index" asp-action="View" title="Settings">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-thin fa-gear me-1"></i>
+                            <span class="inter body-secondary">Settings</span>
+                        </div>
+                        <i class="fa fa-thin fa-chevron-right"></i>
+                    </a>
+                    
+                    <li><hr class="dropdown-divider"/></li>
+
+                    <!--Support page-->
+                    <a class="dropdown-item d-flex justify-content-between align-items-center" asp-area="" asp-controller="Home" asp-action="Support" title="Support">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-thin fa-question-circle me-1"></i>
+                            <span class="inter body-secondary">Help and Information</span>
+                        </div>
+                        <i class="fa fa-thin fa-chevron-right"></i>
+                    </a>
+
+                    <!--Accessibility page-->
+                    <a class="dropdown-item d-flex justify-content-between align-items-center" asp-area="" asp-controller="Identity" asp-action="Account/Manage/Accessibility" title="Accessibility">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-thin fa-wheelchair me-1"></i>
+                            <span class="inter body-secondary">Accessibility</span>
+                        </div>
+                        <i class="fa fa-thin fa-chevron-right"></i>
+                    </a>
+
+                    <li><hr class="dropdown-divider"/></li>
+                    
+                    <!--Logout button-->
+                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/logout" asp-route-returnURL="@Url.Action("Index", "Home", new { area = "" })">
+                        <button id="logout" type="submit" class="dropdown-item d-flex justify-content-between align-items-center" title="Logout">
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-thin fa-arrow-right-from-bracket me-1"></i>
+                                <span class="inter body-seondary">Logout</span>
+                            </div>
+                            <i class="fa fa-thin fa-chevron-right"></i>
+                        </button>
+                    </form>
+                    
+                </ul>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item me-2">
+                <a class="w-100 btn btn-lg btn-primary text-white inter header-extra-small" id="register" asp-area="Identity" asp-page="/Account/Register"></a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="w-100 btn btn-lg btn-primary text-white inter header-extra-small" id="login" asp-area="Identity" asp-page="/Account/Login"></a>
+            </li>
+        }
+        
     }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li>
-    }
-</ul>
+</ul>    
+    

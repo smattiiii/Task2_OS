@@ -35,79 +35,86 @@
 <div class="w-100 position-fixed start-0 overflow-auto row" style="height: 30%; top: 65%">
     <div class="col bg-secondary h-100 p-2">
         <div id="carouselExampleControls" class="carousel slide h-100" data-bs-ride="carousel">
-            @{
-                var carouselItems = new[]
-                {
-                    new
-                    {
-                        ImageURL = "css/login_image.jpg",
-                        Title = "Encounter this",
-                        Description = "Obsenve the ",
-                        Source = "Image from wiki"
-                    },
-                    new
-                    {
-                        ImageURL = "css/profile_two.jpg",
-                        Title = "Encounter this",
-                        Description = "Obsenve the ",
-                        Source = "Image from wiki"
-                    },
-                    new
-                    {
-                        ImageURL = "css/stay_meerkat.jpg",
-                        Title = "Encounter this",
-                        Description = "Obsenve the ",
-                        Source = "Image from wiki"
-                    },
-                    new
-                    {
-                        ImageURL = "css/Zoo_ticket_image.jpg",
-                        Title = "Encounter this",
-                        Description = "Obsenve the ",
-                        Source = "Image from wiki"
-                    }
-                };
-                foreach (var item in carouselItems)
-                {
-                    <div class="carousel-item @(item == carouselItems.First() ? "active" : "")">
-                        <div class="row">
-                            <div class="col-1">
-                                <div class="col">
-                                    <img src="@item.ImageURL" class="d-block object-fit-cover" alt="image" style="width: 28vw; height: 23vh;"/>
-                                    <div class="d-flex align-items-center bg-black">
-                                        <i class="fa fa-thin fa-circle-info ms-1 me-1 text-white"></i>
-                                        <span class="inter other-caption text-white">@item.Source</span>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <h5 class="inter header-small bold">@item.Title</h5>
-                                    <hr class="m-0 opacity-100"/>
-                                    <p class="inter header-extra-small">@item.Description</p>
-                                </div>
-                                <div class="col-1"></div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-        </div>
-        <ol class="carousel-indicators inter other-caption justify-content-start">
-            @{
-                for (int i = 0; i < carouselItems.Length; i++)
-                {
-                    <li data-bs-target="#carouselExampleControls" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "") me-3"></li>
-                }
-            }
-        </ol>
-        <button class="carousel-control-prev opacity-100 inter" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev" style="width: 8%;">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
+            <div class="carousel-inner h-100">
 
-        <button class="carousel-control-prev opacity-100 inter" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next" style="width: 8%;">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+                @{
+                    var carouselItems = new[]
+                    {
+                        new
+                        {
+                            ImageURL = "css/login_image.jpg",
+                            Title = "Encounter this",
+                            Description = "Obsenve the ",
+                            Source = "Image from wiki"
+                        },
+                        new
+                        {
+                            ImageURL = "css/profile_two.jpg",
+                            Title = "Encounter this",
+                            Description = "Obsenve the ",
+                            Source = "Image from wiki"
+                        },
+                        new
+                        {
+                            ImageURL = "css/stay_meerkat.jpg",
+                            Title = "Encounter this",
+                            Description = "Obsenve the ",
+                            Source = "Image from wiki"
+                        },
+                        new
+                        {
+                            ImageURL = "css/Zoo_ticket_image.jpg",
+                            Title = "Encounter this",
+                            Description = "Obsenve the ",
+                            Source = "Image from wiki"
+                        }
+                    };
+                    foreach (var item in carouselItems)
+                    {
+                        <div class="carousel-item @(item == carouselItems.First() ? "active" : "")">
+                            <div class="row">
+                                <div class="col-1"></div>
+                                    <div class="col">
+                                        <img src="@item.ImageURL" class="d-block object-fit-cover" alt="image" style="width: 28vw; height: 23vh;"/>
+                                        <div class="d-flex align-items-center bg-black">
+                                            <i class="fa fa-thin fa-circle-info ms-1 me-1 text-white"></i>
+                                            <span class="inter other-caption text-white">@item.Source</span>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <h5 class="inter header-small bold">@item.Title</h5>
+                                        <hr class="m-0 opacity-100"/>
+                                        <p class="inter header-extra-small">@item.Description</p>
+                                    </div>
+                                    <div class="col-1"></div>
+                                </div>
+                            </div>
+                        
+                    }
+                }
+            </div>
+            <ol class="carousel-indicators inter other-caption justify-content-start">
+                @{
+                    for (int i = 0; i < carouselItems.Length; i++)
+                    {
+                        <li data-bs-target="#carouselExampleControls" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "") me-3"></li>
+                    }
+                }
+
+            </ol>
+            <button class="carousel-control-prev opacity-100 inter" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev" style="width: 8%;">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+
+            <button class="carousel-control-prev opacity-100 inter" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next" style="width: 8%;">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+                
+        </div>
+            
+        
     </div>
     
     <div class="col-4">
