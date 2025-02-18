@@ -1,0 +1,196 @@
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment WebHostEnvironment
+@using System.IO
+@model Task2_OS.ViewModels.BookingTicketsViewModel
+
+@{
+    ViewData["Title"] = "Booking - Tickets";
+}
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function (){
+            //add event listener to search button
+            $("#search_button").click(function () {
+                // Collect data from input fields
+                var startDate = $("#start_date").val();
+                var endDate = $("#end_date").val();
+                var searchBoxValue = $("#search_box").val();
+                var minimumValue = $("#minimumValue").val();
+                var maximumValue = $("#maximumValue").val();
+                var ticketTypes = [];
+                $(".form-check-input:checked").each(function () {
+                    ticketTypes.push($(this).attr("id"));
+                });
+                
+                // store search data in local storage
+                localStorage.setItem('searchData-tickets', JSON.stringify(searchData));
+                
+                // construct search with URL parameters
+                var searchURL = '/Booking/Tickets?' + $.param(searchData)
+                
+                // redirect to the search URL
+                window.location.href = searchURL;
+            });
+            
+            // restore the form data if available in localStorage
+            var storedData = localStorage.getItem('searchData-tickets');
+            if (storedData) {
+                var searchData = JSON.parse(storedData);
+                $('#start_date').val(searchData.startDate);
+                $('#end_date').val(searchData.endDate);
+                $('#search_box').val(searchData.searchBoxValue);
+                $('#minimumValue').val(searchData.minimumValue);
+                $('#maximumValue').val(searchData.maximumValue);
+                var ticketTypes = searchData.ticketType.split('.');
+                ticketTypes.forEach(function (ticketType) {
+                    document.getElementById(ticketType).checked = true;
+                });
+            }
+            
+        });
+    </script>
+}
+
+<div class="position-fixed top-0 start-0 z-n1 object-fit-cover w-100" style="height: 50.5%;">
+    <img src="#" class="img-fluid position-fixed top-0 start-0 z-n1 object-fit-cover w-100" alt="Background Image" style="height: 50.5%;"/>
+    
+    <div class="position-absolute bottom-0 start-50 translate-middle-x" style="width: 65%; height: 8em; margin-bottom: -4em;">
+        <div class="bg-white shadow rounded-4" style="height: 100%">
+            <div class="row ps-2 pt-2 pb-0 m-0">
+                <a class="col-auto ms-3 me-2 mb-0 p-0 text-decoration-none text-grey" asp-area="" asp-controller="Booking" asp-action="Rooms">
+                    <i class="fa fa-thin fa-door-open"></i>
+                    <p class="d-inline-block inter subtitle-base">Room</p>
+                </a>
+                
+                <a class="col-auto ms-2 mt-2 mb-0 p-0 text-decoration-underline text-primary link-offset-3" href="#">
+                    <i class="fa fa-thin fa-ticket text-decoration-underline text-primary link-offset-3"></i>
+                    <p class="d-inline-block inter subtitle-base text-decoration-underline link-offset-3">Tickets</p>
+                </a>
+            </div>
+            
+            <hr class="m-0"/>
+            <div class="row">
+                <div class="col accept-policy ms-5 d-flex">
+                    <div class="me-2">
+                        <label for="start_date" class="inter subtitle-base bold">Start Date</label>
+                        <input id="start_date" type="date" class="form-control inter body-base"/>
+                    </div>
+                    
+                    <i class="fa fa-thin fa-arrow-right-arrow-left align-content-center mt-4 ms-5 me-5"></i>
+                    <div class="ms-2">
+                        <label for="end_date" class="inter subtitle-base bold">End Date</label>
+                        <input id="end_date" type="date" class="form-control inter body-base"/>
+                    </div>
+                </div>
+                
+                <div class="col d-inline-block mt-3">
+                    <div class="d-flex justify-content-end">
+                        <input class="form-control inter body-base text-black me-2 w-50" id="search_box" placeholder="Search..."/>
+                        <button id="search_button" class="btn btn-primary inter subtitle-base me-2">Search</button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="text-white inter other-caption d-inline-block bg-black p-1 position-absolute bottom-0">
+        <div class="d-flex align-items-center">
+            <i class="fa fa-thin fa-circle-info me-1"></i>
+            <span class="inter other-caption">Image by Shutterspock</span>
+        </div>
+    </div>
+    
+    
+</div>
+
+<div class="container" style="position: absolute; top: 57%; left: 0; right: 0; height: 35%; !important;">
+    <hr/>
+    <div class="row h-75">
+        <div class="col-3 card">
+            <p  class="inter header-medium mb-0">FILTER BY</p>
+            <hr class="m-0 text-primary opacity-100"/>
+            
+            <div>
+                <p class="inter header-small">Price (/>pp)</p>
+                <div class="row">
+                    <div class="col pe-0">
+                        <input type="number" class="form-control inter other-caption" id="minimumValue" placeholder="Minimum Value"/>
+                        
+                    </div>
+                    <p class="col-auto inter body-base p-1"></p>
+                    <div class="col ps-0">
+                        <input type="number" class="form-control inter other-caption" id="maximumValue" placeholder="Maximum Value"/>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <hr class="m-0 text-primary opacity-100"/>
+            <div>
+                <p class="inter header-small">Ticket Type</p>
+                
+                <div class="h-100 overflow-auto p-2" style="max-height: 12vh;">
+                    @for (int i = 0; i < Model.TicketTypes.Count; i++)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="@($"{Model.TicketTypes[i]}_{i}")"/>
+                            <label class="form-check-label inter subtitle-secondary" for="@($"{Model.TicketTypes[i]}_{i}")">
+                                @Model.TicketTypes[i]
+                            </label>
+                        </div>
+                    }
+                </div>
+            </div>
+            
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <p class="inter header-small">@Model.Tickets.Count @(Model.Tickets.Count == 1 ? "Ticket" : "Tickets") Found</p>
+                </div>
+                
+                <div class="col text-end">
+                    <button class="btn btn-lg p-1 no-focus-effect" type="button">
+                        <i class="fa fa-thin fa-grip-lines text-light-grey"></i>
+                    </button>
+
+                    <button class="btn btn-lg p-1 no-focus-effect" type="button">
+                        <i class="fa fa-thin fa-grip-horizontal text-black"></i>
+                    </button>
+                    
+                    <select class="form-select form-select-sm w-50 d-inline-block">
+                        <option value="Recommended" Selected>Recommended</option>
+                        <option value="Price">Price</option>
+                    </select>
+                    
+                </div>
+            </div>
+            
+            <div class="h-100 overflow-auto p-0 m-0 d-flex flex-grow-1 flex-wrap" style="max-height: 25vh;">
+                @foreach (TicketModel ticket in Model.Tickets)
+                {
+                    string imagePath = "#"; //default placeholder img
+
+                    if (!string.IsNullOrEmpty(ticket.ImageFilePath) && System.IO.File.Exists(WebHostEnvironment.WebRootPath + "/" + ticket.ImageFilePath))
+                    {
+                        imagePath = ticket.ImageFilePath;
+                    }
+                    
+                    <a asp-controller="Bookin" asp-action="ViewTicket" asp-route-ticketID="@ticket.Id" class="card m-1 text-decoration-none rounded-2" style="width: 14rem;">
+                        <img src="@imagePath" class="card-img-top rounded-2" alt="Ticket Image" width="200" height="150"/>
+                        <div class="card-body">
+                            <h5 class="card-title inter header-extra-small">@ticket.Title</h5>
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-thin fa-location-arrow me-1"></i>
+                                <span class="card-text inter subtitle-secondary">from £@ticket.Price/pp</span>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+        
+    </div>
+</div>
