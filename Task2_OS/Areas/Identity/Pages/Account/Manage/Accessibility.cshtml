@@ -1,0 +1,67 @@
+@page
+
+@model AccessibilityDataModel
+@using Microsoft.AspNetCore.Identity
+@using Task2_OS.Data
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Accessibility";
+    ViewData["ActivePage"] = ManageNavPages.Accessibility;
+
+    IdentityUser user = await UserManager.GetUserAsync(User);
+    //get theme and select dropdown
+    string theme = "light";
+    bool enableAccessibility = false;
+    if (user != null)
+    {
+        theme = user?.Theme ?? "light";
+        enableAccessibility = user?.AccessibilityWidgetEnabled ?? false;
+    }
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-page-handler="UpdateAccessibilitySettings" method="post">
+            <div class="form-group">
+                <label for="theme"> Theme:</label>
+                @{
+                    <select class="form-control" id="theme" name="theme">
+                        @if (theme == "light")
+                        {
+                            <option value="light" selected>Light</option>
+                            <option value="dark">Dark</option>
+                        }
+                        else
+                        {
+                            <option value="light">Light</option>
+                            <option value="dark" selected>Dark</option>
+                        }
+                    </select>
+                }
+            </div>
+            
+            <div class="form-group mt-1">
+                <div class="form-check">
+                    @if (enableAccessibility)
+                    {
+                        <input class="form-check-input" type="checkbox" name="enableAccessibility" value="true" checked/>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" name="enableAccessibility" value="true"/>
+                    }
+                    <label class="form-check-label" for="enableAccessibility">Enable Accessibility Widget</label>
+                </div>
+            </div>
+            <button class="btn btn-primary mt-4" type="submit">Update Accessibility Options</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
+}
+
